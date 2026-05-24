@@ -297,6 +297,24 @@ JSON FORMAT:
         parsed =
           JSON.parse(cleaned);
 
+          if (
+
+  !parsed.sections ||
+
+  !Array.isArray(
+    parsed.sections
+  ) ||
+
+  parsed.sections.length === 0
+
+) {
+
+  throw new Error(
+    'Invalid sections'
+  );
+
+}
+
         console.log(
           'JSON PARSED SUCCESSFULLY'
         );
@@ -400,6 +418,7 @@ JSON FORMAT:
         };
 
       }
+      
 
       return res.json({
 
