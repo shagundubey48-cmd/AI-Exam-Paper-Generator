@@ -1,5 +1,8 @@
 'use client';
-
+import {
+  saveAssignment,
+}
+from '@/utils/localStorage';
 import { useState } from 'react';
 
 import axios from 'axios';
@@ -134,6 +137,20 @@ export default function CreatePage() {
         setGeneratedData(
           response.data
         );
+        saveAssignment({
+
+  id: Date.now(),
+
+  title,
+
+  createdAt:
+    new Date()
+      .toISOString(),
+
+  data:
+    response.data,
+
+});
 
       } catch (error) {
 

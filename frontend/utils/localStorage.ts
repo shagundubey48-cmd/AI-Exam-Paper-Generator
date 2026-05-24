@@ -1,46 +1,43 @@
-import {
-
-  AssignmentData,
-
-} from '@/store/useAssignmentStore';
-
-export interface StoredAssignment
-  extends AssignmentData {
+export interface StoredAssignment {
 
   id: number;
 
+  title: string;
+
   createdAt: string;
+
+  data: any;
 
 }
 
+const KEY =
+  'veda_assignments';
+
 export const saveAssignment =
   (
-    assignment: AssignmentData
+    assignment: StoredAssignment
   ) => {
+
+    if (
+      typeof window ===
+      'undefined'
+    )
+      return;
 
     const existing =
       getAssignments();
 
-    existing.unshift({
-
-      id:
-        Date.now(),
-
-      createdAt:
-        new Date()
-          .toLocaleDateString(),
-
-      ...assignment,
-
-    });
-
     localStorage.setItem(
 
-      'assignments',
+      KEY,
 
-      JSON.stringify(
-        existing
-      )
+      JSON.stringify([
+
+        assignment,
+
+        ...existing,
+
+      ])
 
     );
 
@@ -60,16 +57,12 @@ export const getAssignments =
 
     const data =
       localStorage.getItem(
-        'assignments'
+        KEY
       );
 
-    if (!data) {
-
-      return [];
-
-    }
-
-    return JSON.parse(data);
+    return data
+      ? JSON.parse(data)
+      : [];
 
   };
 
@@ -79,7 +72,7 @@ export const deleteAssignment =
     const existing =
       getAssignments();
 
-    const filtered =
+    const updated =
       existing.filter(
 
         (a) =>
@@ -89,10 +82,10 @@ export const deleteAssignment =
 
     localStorage.setItem(
 
-      'assignments',
+      KEY,
 
       JSON.stringify(
-        filtered
+        updated
       )
 
     );
