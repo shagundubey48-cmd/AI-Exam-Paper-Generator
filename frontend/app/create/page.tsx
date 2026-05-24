@@ -179,9 +179,9 @@ export default function CreatePage() {
         const response =
           await axios.post(
 
-            'http://localhost:5000/api/assignment/generate',
-
-            formData
+'https://ai-exam-paper-generator-2.onrender.com/api/assignment/generate',
+            
+formData
 
           );
 
