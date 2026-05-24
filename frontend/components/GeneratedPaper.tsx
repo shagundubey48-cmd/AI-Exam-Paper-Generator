@@ -437,6 +437,133 @@ generatedData.totalMarks ||
         </div>
 
         {/* QUESTIONS */}
+        {/* QUESTIONS SECTIONS */}
+
+<div className="mt-16">
+
+  {generatedData?.sections?.map(
+
+    (
+      section: any,
+      sectionIndex: number
+    ) => (
+
+      <div
+        key={sectionIndex}
+        className="mb-14"
+      >
+
+        <h2
+          className="
+            text-3xl
+            font-bold
+            mb-3
+          "
+        >
+
+          {section.title}
+
+        </h2>
+
+        <p
+          className="
+            mb-6
+            text-gray-600
+          "
+        >
+
+          {section.instruction}
+
+        </p>
+
+        {section.questions?.map(
+
+          (
+            question: any,
+            questionIndex: number
+          ) => (
+
+            <div
+              key={questionIndex}
+              className="mb-8"
+            >
+
+              <p
+                className="
+                  text-lg
+                  font-medium
+                "
+              >
+
+                {questionIndex + 1}.
+                {' '}
+                {question.question}
+
+              </p>
+
+              {question.options &&
+                question.options.length > 0 && (
+
+                  <div className="mt-3 ml-6 space-y-2">
+
+                    {question.options.map(
+
+                      (
+                        option: string,
+                        optionIndex: number
+                      ) => (
+
+                        <p key={optionIndex}>
+
+                          {String.fromCharCode(
+                            65 + optionIndex
+                          )}.
+                          {' '}
+                          {option}
+
+                        </p>
+
+                      )
+
+                    )}
+
+                  </div>
+
+                )}
+
+              <div
+                className="
+                  mt-3
+                  text-sm
+                  text-gray-500
+                "
+              >
+
+                Difficulty:
+                {' '}
+                {question.difficulty}
+
+                {' | '}
+
+                Marks:
+                {' '}
+                {question.marks}
+
+              </div>
+
+            </div>
+
+          )
+
+        )}
+
+      </div>
+
+    )
+
+  )}
+
+</div>
 
         <div
   className="
