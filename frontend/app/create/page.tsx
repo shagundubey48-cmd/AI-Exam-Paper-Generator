@@ -17,6 +17,9 @@ export default function CreatePage() {
   const [title, setTitle] =
     useState('');
 
+  const [dueDate, setDueDate] =
+    useState('');
+
   const [generatedData, setGeneratedData] =
     useState<any>(null);
 
@@ -87,6 +90,11 @@ export default function CreatePage() {
         );
 
         formData.append(
+          'dueDate',
+          dueDate
+        );
+
+        formData.append(
 
           'questionTypes',
 
@@ -122,10 +130,6 @@ export default function CreatePage() {
             }
 
           );
-
-        console.log(
-          response.data
-        );
 
         setGeneratedData(
           response.data
@@ -216,7 +220,7 @@ export default function CreatePage() {
 
         </p>
 
-        {/* PDF Upload */}
+        {/* FILE */}
 
         <div
           className="
@@ -296,7 +300,7 @@ export default function CreatePage() {
 
         </div>
 
-        {/* Title */}
+        {/* TITLE */}
 
         <div className="mt-8">
 
@@ -339,7 +343,46 @@ export default function CreatePage() {
 
         </div>
 
-        {/* Question Types */}
+        {/* DUE DATE */}
+
+        <div className="mt-8">
+
+          <label
+            className="
+              block
+              font-semibold
+              mb-2
+            "
+          >
+
+            Due Date
+
+          </label>
+
+          <input
+
+            type="date"
+
+            value={dueDate}
+
+            onChange={(e) =>
+              setDueDate(
+                e.target.value
+              )
+            }
+
+            className="
+              w-full
+              border
+              rounded-xl
+              p-4
+            "
+
+          />
+
+        </div>
+
+        {/* QUESTION TYPES */}
 
         <div className="mt-10">
 
@@ -490,7 +533,7 @@ export default function CreatePage() {
 
         </div>
 
-        {/* Generate Button */}
+        {/* BUTTON */}
 
         <button
 
@@ -524,7 +567,7 @@ export default function CreatePage() {
 
       </div>
 
-      {/* Generated Paper */}
+      {/* GENERATED PAPER */}
 
       {generatedData && (
 
