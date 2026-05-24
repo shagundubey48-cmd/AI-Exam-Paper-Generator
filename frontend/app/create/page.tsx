@@ -144,7 +144,9 @@ export default function CreatePage() {
   title,
 
   subject:
-    response.data.subject,
+    response.data.subject ||
+
+    'Artificial Intelligence',
 
   totalQuestions:
 
@@ -157,24 +159,26 @@ export default function CreatePage() {
         ) =>
 
           acc +
-          sec.questions.length,
+          (
+            sec.questions
+              ?.length || 0
+          ),
 
         0
 
       ) || 0,
 
   totalMarks:
-    response.data.maxMarks,
+    response.data.maxMarks || 0,
 
   createdAt:
     new Date()
-      .toISOString(),
+      .toLocaleString(),
 
   data:
     response.data,
 
 });
-
       } catch (error) {
 
         console.error(error);
