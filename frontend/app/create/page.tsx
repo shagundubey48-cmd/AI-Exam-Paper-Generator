@@ -132,120 +132,79 @@ export default function CreatePage() {
           );
 
         const generatedPaper =
-  response.data;
+          response.data;
 
-setGeneratedData(
-  generatedPaper
-);
+        setGeneratedData(
+          generatedPaper
+        );
 
-const existing =
+        const existingAssignments =
 
-  JSON.parse(
+          JSON.parse(
 
-    localStorage.getItem(
-      'veda_assignments'
-    ) || '[]'
+            localStorage.getItem(
+              'veda_assignments'
+            ) || '[]'
 
-  );
+          );
 
-const newAssignment = {
+        const assignmentToSave = {
 
-  id: Date.now(),
+          id: Date.now(),
 
-  title,
+          title,
 
-  subject:
-    generatedPaper.subject ||
+          subject:
+            generatedPaper.subject ||
 
-    'Artificial Intelligence',
+            'Artificial Intelligence',
 
-  totalQuestions:
+          totalQuestions:
 
-    generatedPaper.sections
-      ?.reduce(
+            generatedPaper.sections
+              ?.reduce(
 
-        (
-          acc: number,
-          sec: any
-        ) =>
+                (
+                  acc: number,
+                  sec: any
+                ) =>
 
-          acc +
-          (
-            sec.questions
-              ?.length || 0
-          ),
+                  acc +
+                  (
+                    sec.questions
+                      ?.length || 0
+                  ),
 
-        0
+                0
 
-      ) || 0,
+              ) || 0,
 
-  totalMarks:
-    generatedPaper.maxMarks || 0,
+          totalMarks:
+            generatedPaper.maxMarks || 0,
 
-  createdAt:
-    new Date()
-      .toLocaleString(),
+          createdAt:
+            new Date()
+              .toLocaleString(),
 
-  data:
-    generatedPaper,
+          data:
+            generatedPaper,
 
-};
+        };
 
-localStorage.setItem(
+        existingAssignments.unshift(
+          assignmentToSave
+        );
 
-  'veda_assignments',
+        localStorage.setItem(
 
-  JSON.stringify([
+          'veda_assignments',
 
-    newAssignment,
+          JSON.stringify(
+            existingAssignments
+          )
 
-    ...existing,
+        );
 
-  ])
-
-);
-        saveAssignment({
-
-  id: Date.now(),
-
-  title,
-
-  subject:
-    response.data.subject ||
-
-    'Artificial Intelligence',
-
-  totalQuestions:
-
-    response.data.sections
-      ?.reduce(
-
-        (
-          acc: number,
-          sec: any
-        ) =>
-
-          acc +
-          (
-            sec.questions
-              ?.length || 0
-          ),
-
-        0
-
-      ) || 0,
-
-  totalMarks:
-    response.data.maxMarks || 0,
-
-  createdAt:
-    new Date()
-      .toLocaleString(),
-
-  data:
-    response.data,
-
-});
       } catch (error) {
 
         console.error(error);
