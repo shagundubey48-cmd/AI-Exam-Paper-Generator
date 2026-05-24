@@ -15,13 +15,6 @@ from '@/components/GeneratedPaper';
 
 import {
   getAssignments,
-}
-from '@/utils/localStorage';
-
-import {
-
-  StoredAssignment,
-
 } from '@/utils/localStorage';
 
 export default function AssignmentViewPage() {
@@ -29,10 +22,8 @@ export default function AssignmentViewPage() {
   const params =
     useParams();
 
-  const [assignment, setAssignment] =
-    useState<StoredAssignment | null>(
-      null
-    );
+  const [paperData, setPaperData] =
+    useState<any>(null);
 
   useEffect(() => {
 
@@ -53,20 +44,27 @@ export default function AssignmentViewPage() {
 
       all.find(
 
-        (a) =>
+        (a: any) =>
 
           a.id.toString() ===
           id
 
-      ) || null;
+      );
 
-    setAssignment(
-      found
-    );
+    if (
+      found &&
+      found.data
+    ) {
 
-  }, [params.id]);
+      setPaperData(
+        found.data
+      );
 
-  if (!assignment) {
+    }
+
+  }, [params]);
+
+  if (!paperData) {
 
     return (
 
@@ -76,7 +74,7 @@ export default function AssignmentViewPage() {
           flex
           items-center
           justify-center
-          text-2xl
+          text-3xl
           font-bold
         "
       >
@@ -93,19 +91,17 @@ export default function AssignmentViewPage() {
 
     <div
       className="
-        bg-gray-100
         min-h-screen
+        bg-gray-100
         p-4
         md:p-10
       "
     >
 
       <GeneratedPaper
-
         generatedData={
-          assignment.data
+          paperData
         }
-
       />
 
     </div>
