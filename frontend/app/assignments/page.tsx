@@ -29,7 +29,7 @@ export default function AssignmentViewPage() {
       ? JSON.parse(stored)
       : [];
 
-  const id =
+  const routeId =
 
     Array.isArray(
       params.id
@@ -44,13 +44,14 @@ export default function AssignmentViewPage() {
 
       (a: any) =>
 
-        a.id.toString() ===
-        id
+        String(a.id) ===
+        String(routeId)
 
     );
 
   if (
-    !assignment
+    !assignment ||
+    !assignment.data
   ) {
 
     return (
