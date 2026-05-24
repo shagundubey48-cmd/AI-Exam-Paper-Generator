@@ -446,13 +446,7 @@ generatedData.totalMarks ||
     z-10
   "
 >
-  <p className="mb-10 text-red-500">
-
-  Total Sections:
-  {' '}
-  {sections.length}
-
-</p>
+  
 
           {sections.map(
 

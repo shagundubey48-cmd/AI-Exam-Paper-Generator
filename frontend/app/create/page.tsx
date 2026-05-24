@@ -49,178 +49,206 @@ export default function CreatePage() {
 
     ]);
 
-  const handleGenerate =
-    async () => {
+ const handleGenerate =
+  async () => {
 
-      try {
+    try {
 
-        if (!file) {
-
-          alert(
-            'Please upload PDF'
-          );
-
-          return;
-
-        }
-
-        if (!title.trim()) {
-
-          alert(
-            'Please enter title'
-          );
-
-          return;
-
-        }
-
-        setLoading(true);
-
-        const formData =
-          new FormData();
-
-        formData.append(
-          'pdf',
-          file
-        );
-
-        formData.append(
-          'title',
-          title
-        );
-
-        formData.append(
-          'dueDate',
-          dueDate
-        );
-
-        formData.append(
-
-          'questionTypes',
-
-          JSON.stringify(
-            questionTypes
-          )
-
-        );
-
-        const API_URL =
-
-          process.env
-            .NEXT_PUBLIC_API_URL ||
-
-          'http://localhost:5000';
-
-        const response =
-          await axios.post(
-
-            `${API_URL}/api/assignments/generate`,
-
-            formData,
-
-            {
-
-              headers: {
-
-                'Content-Type':
-                  'multipart/form-data',
-
-              },
-
-            }
-
-          );
-
-        const generatedPaper =
-          response.data;
-
-        setGeneratedData(
-          generatedPaper
-        );
-
-        const existingAssignments =
-
-          JSON.parse(
-
-            localStorage.getItem(
-              'veda_assignments'
-            ) || '[]'
-
-          );
-
-        const assignmentToSave = {
-
-          id: Date.now(),
-
-          title,
-
-          subject:
-            generatedPaper.subject ||
-
-            'Artificial Intelligence',
-
-          totalQuestions:
-
-            generatedPaper.sections
-              ?.reduce(
-
-                (
-                  acc: number,
-                  sec: any
-                ) =>
-
-                  acc +
-                  (
-                    sec.questions
-                      ?.length || 0
-                  ),
-
-                0
-
-              ) || 0,
-
-          totalMarks:
-            generatedPaper.maxMarks || 0,
-
-          createdAt:
-            new Date()
-              .toLocaleString(),
-
-          data:
-            generatedPaper,
-
-        };
-
-        existingAssignments.unshift(
-          assignmentToSave
-        );
-
-        localStorage.setItem(
-
-          'veda_assignments',
-
-          JSON.stringify(
-            existingAssignments
-          )
-
-        );
-
-      } catch (error) {
-
-        console.error(error);
+      if (!file) {
 
         alert(
-          'Generation failed'
+          'Please upload PDF'
         );
 
-      } finally {
-
-        setLoading(false);
+        return;
 
       }
 
-    };
+      if (!title.trim()) {
 
+        alert(
+          'Please enter title'
+        );
+
+        return;
+
+      }
+
+      setLoading(true);
+
+      const formData =
+        new FormData();
+
+      formData.append(
+        'pdf',
+        file
+      );
+
+      formData.append(
+        'title',
+        title
+      );
+
+      formData.append(
+        'dueDate',
+        dueDate
+      );
+
+      formData.append(
+
+        'questionTypes',
+
+        JSON.stringify(
+          questionTypes
+        )
+
+      );
+
+      const API_URL =
+
+        process.env
+          .NEXT_PUBLIC_API_URL ||
+
+        'http://localhost:5000';
+
+      const response =
+        await axios.post(
+
+          `${API_URL}/api/assignments/generate`,
+
+          formData,
+
+          {
+
+            headers: {
+
+              'Content-Type':
+                'multipart/form-data',
+
+            },
+
+          }
+
+        );
+
+      const generatedPaper = {
+
+        ...response.data,
+
+        sections:
+
+          response.data.sections ||
+
+          [],
+
+      };
+
+      console.log(
+        'FRONTEND GENERATED PAPER:',
+        generatedPaper
+      );
+
+      setGeneratedData(
+        generatedPaper
+      );
+
+      const existingAssignments =
+
+        JSON.parse(
+
+          localStorage.getItem(
+            'veda_assignments'
+          ) || '[]'
+
+        );
+
+      const assignmentToSave = {
+
+        id: Date.now(),
+
+        title,
+
+        subject:
+
+          generatedPaper.subject ||
+
+          'Artificial Intelligence',
+
+        totalQuestions:
+
+          generatedPaper.sections
+            ?.reduce(
+
+              (
+                acc: number,
+                sec: any
+              ) =>
+
+                acc +
+                (
+                  sec.questions
+                    ?.length || 0
+                ),
+
+              0
+
+            ) || 0,
+
+        totalMarks:
+
+          generatedPaper.maxMarks ||
+
+          0,
+
+        createdAt:
+          new Date()
+            .toLocaleString(),
+
+        data: {
+
+          ...generatedPaper,
+
+          sections:
+            generatedPaper.sections || [],
+
+        },
+
+      };
+
+      existingAssignments.unshift(
+        assignmentToSave
+      );
+
+      localStorage.setItem(
+
+        'veda_assignments',
+
+        JSON.stringify(
+          existingAssignments
+        )
+
+      );
+
+      console.log(
+        'SAVED ASSIGNMENT:',
+        assignmentToSave
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        'Generation failed'
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
   return (
 
     <div
