@@ -61,6 +61,16 @@ export default function CreatePage() {
 
         }
 
+        if (!title.trim()) {
+
+          alert(
+            'Please enter title'
+          );
+
+          return;
+
+        }
+
         setLoading(true);
 
         const formData =
@@ -86,10 +96,17 @@ export default function CreatePage() {
 
         );
 
+        const API_URL =
+
+          process.env
+            .NEXT_PUBLIC_API_URL ||
+
+          'http://localhost:5000';
+
         const response =
           await axios.post(
 
-            `${process.env.NEXT_PUBLIC_API_URL}/api/assignments/generate`,
+            `${API_URL}/api/assignments/generate`,
 
             formData,
 
@@ -105,6 +122,10 @@ export default function CreatePage() {
             }
 
           );
+
+        console.log(
+          response.data
+        );
 
         setGeneratedData(
           response.data
@@ -132,7 +153,8 @@ export default function CreatePage() {
       className="
         min-h-screen
         bg-gray-100
-        p-6
+        p-4
+        md:p-10
       "
     >
 
@@ -142,7 +164,9 @@ export default function CreatePage() {
           mx-auto
           bg-white
           rounded-3xl
-          p-8
+          shadow-sm
+          p-6
+          md:p-10
         "
       >
 
@@ -150,12 +174,14 @@ export default function CreatePage() {
 
           <button
             className="
+              mb-8
               border
-              px-6
-              py-3
-              rounded-2xl
-              font-semibold
-              mb-10
+              px-5
+              py-2
+              rounded-xl
+              hover:bg-black
+              hover:text-white
+              transition
             "
           >
 
@@ -167,7 +193,8 @@ export default function CreatePage() {
 
         <h1
           className="
-            text-5xl
+            text-2xl
+            md:text-5xl
             font-bold
           "
         >
@@ -178,9 +205,9 @@ export default function CreatePage() {
 
         <p
           className="
-            mt-4
+            mt-3
             text-gray-500
-            text-xl
+            text-lg
           "
         >
 
@@ -189,9 +216,41 @@ export default function CreatePage() {
 
         </p>
 
-        {/* FILE */}
+        {/* PDF Upload */}
 
-        <div className="mt-10">
+        <div
+          className="
+            mt-10
+            border-2
+            border-dashed
+            rounded-3xl
+            p-10
+            text-center
+            bg-gray-50
+          "
+        >
+
+          <h2
+            className="
+              text-2xl
+              font-bold
+            "
+          >
+
+            Upload PDF
+
+          </h2>
+
+          <p
+            className="
+              mt-3
+              text-gray-500
+            "
+          >
+
+            Choose PDF file
+
+          </p>
 
           <input
 
@@ -199,182 +258,245 @@ export default function CreatePage() {
 
             accept=".pdf"
 
-            onChange={(e) => {
+            onChange={(e) =>
 
-              if (
-                e.target.files?.[0]
-              ) {
+              setFile(
 
-                setFile(
-                  e.target.files[0]
-                );
+                e.target.files?.[0] ||
 
-              }
+                null
 
-            }}
+              )
+
+            }
+
+            className="
+              mt-6
+            "
+
+          />
+
+          {file && (
+
+            <p
+              className="
+                mt-4
+                text-sm
+                font-medium
+              "
+            >
+
+              Selected:
+              {' '}
+              {file.name}
+
+            </p>
+
+          )}
+
+        </div>
+
+        {/* Title */}
+
+        <div className="mt-8">
+
+          <label
+            className="
+              block
+              font-semibold
+              mb-2
+            "
+          >
+
+            Assignment Title
+
+          </label>
+
+          <input
+
+            type="text"
+
+            value={title}
+
+            onChange={(e) =>
+              setTitle(
+                e.target.value
+              )
+            }
+
+            placeholder="
+              AI Mid Semester Exam
+            "
 
             className="
               w-full
               border
-              rounded-2xl
+              rounded-xl
               p-4
-              bg-white
             "
 
           />
 
         </div>
 
-        {/* TITLE */}
+        {/* Question Types */}
 
-        <input
+        <div className="mt-10">
 
-          type="text"
+          <h2
+            className="
+              text-2xl
+              font-bold
+            "
+          >
 
-          placeholder="Assignment Title"
+            Question Types
 
-          value={title}
+          </h2>
 
-          onChange={(e) =>
-            setTitle(
-              e.target.value
-            )
-          }
+          <div className="mt-6 space-y-5">
 
-          className="
-            mt-8
-            w-full
-            border
-            rounded-2xl
-            p-4
-          "
+            {questionTypes.map(
 
-        />
+              (
+                q,
+                index
+              ) => (
 
-        {/* QUESTION TYPES */}
+                <div
 
-        <div
-          className="
-            mt-10
-            space-y-4
-          "
-        >
-
-          {questionTypes.map(
-
-            (
-              q,
-              index
-            ) => (
-
-              <div
-                key={index}
-                className="
-                  grid
-                  grid-cols-3
-                  gap-4
-                "
-              >
-
-                <input
-
-                  value={q.type}
-
-                  onChange={(e) => {
-
-                    const updated =
-                      [...questionTypes];
-
-                    updated[index].type =
-                      e.target.value;
-
-                    setQuestionTypes(
-                      updated
-                    );
-
-                  }}
+                  key={index}
 
                   className="
-                    border
-                    rounded-xl
-                    p-4
+                    grid
+                    grid-cols-1
+                    md:grid-cols-3
+                    gap-4
                   "
 
-                />
+                >
 
-                <input
+                  <input
 
-                  type="number"
+                    type="text"
 
-                  value={q.questions}
+                    value={q.type}
 
-                  onChange={(e) => {
+                    onChange={(e) => {
 
-                    const updated =
-                      [...questionTypes];
+                      const updated =
+                        [
+                          ...questionTypes,
+                        ];
 
-                    updated[index].questions =
-                      Number(
-                        e.target.value
+                      updated[
+                        index
+                      ].type =
+                        e.target.value;
+
+                      setQuestionTypes(
+                        updated
                       );
 
-                    setQuestionTypes(
-                      updated
-                    );
+                    }}
 
-                  }}
+                    className="
+                      border
+                      rounded-xl
+                      p-4
+                    "
 
-                  className="
-                    border
-                    rounded-xl
-                    p-4
-                  "
+                  />
 
-                />
+                  <input
 
-                <input
+                    type="number"
 
-                  type="number"
+                    value={
+                      q.questions
+                    }
 
-                  value={q.marks}
+                    onChange={(e) => {
 
-                  onChange={(e) => {
+                      const updated =
+                        [
+                          ...questionTypes,
+                        ];
 
-                    const updated =
-                      [...questionTypes];
+                      updated[
+                        index
+                      ].questions =
 
-                    updated[index].marks =
-                      Number(
-                        e.target.value
+                        Number(
+                          e.target.value
+                        );
+
+                      setQuestionTypes(
+                        updated
                       );
 
-                    setQuestionTypes(
-                      updated
-                    );
+                    }}
 
-                  }}
+                    className="
+                      border
+                      rounded-xl
+                      p-4
+                    "
 
-                  className="
-                    border
-                    rounded-xl
-                    p-4
-                  "
+                  />
 
-                />
+                  <input
 
-              </div>
+                    type="number"
 
-            )
+                    value={q.marks}
 
-          )}
+                    onChange={(e) => {
+
+                      const updated =
+                        [
+                          ...questionTypes,
+                        ];
+
+                      updated[
+                        index
+                      ].marks =
+
+                        Number(
+                          e.target.value
+                        );
+
+                      setQuestionTypes(
+                        updated
+                      );
+
+                    }}
+
+                    className="
+                      border
+                      rounded-xl
+                      p-4
+                    "
+
+                  />
+
+                </div>
+
+              )
+
+            )}
+
+          </div>
 
         </div>
 
-        {/* BUTTON */}
+        {/* Generate Button */}
 
         <button
 
-          onClick={handleGenerate}
+          onClick={
+            handleGenerate
+          }
 
           disabled={loading}
 
@@ -391,20 +513,18 @@ export default function CreatePage() {
         >
 
           {
-
             loading
 
               ? 'Generating...'
 
               : 'Generate Assignment'
-
           }
 
         </button>
 
       </div>
 
-      {/* GENERATED PAPER */}
+      {/* Generated Paper */}
 
       {generatedData && (
 
