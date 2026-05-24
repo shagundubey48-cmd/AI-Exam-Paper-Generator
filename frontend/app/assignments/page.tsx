@@ -13,6 +13,39 @@ export default function AssignmentViewPage() {
   const params =
     useParams();
 
+  const routeId =
+
+    Array.isArray(
+      params?.id
+    )
+
+      ? params.id[0]
+
+      : params?.id;
+
+  if (!routeId) {
+
+    return (
+
+      <div
+        className="
+          min-h-screen
+          flex
+          items-center
+          justify-center
+          text-4xl
+          font-bold
+        "
+      >
+
+        Invalid Route ID
+
+      </div>
+
+    );
+
+  }
+
   const stored =
 
     typeof window !==
@@ -29,16 +62,6 @@ export default function AssignmentViewPage() {
       ? JSON.parse(stored)
       : [];
 
-  const routeId =
-
-    Array.isArray(
-      params.id
-    )
-
-      ? params.id[0]
-
-      : params.id;
-
   const assignment =
     assignments.find(
 
@@ -50,8 +73,7 @@ export default function AssignmentViewPage() {
     );
 
   if (
-    !assignment ||
-    !assignment.data
+    !assignment
   ) {
 
     return (
