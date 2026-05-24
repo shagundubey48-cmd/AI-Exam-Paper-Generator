@@ -76,6 +76,14 @@ export const generateAssignment =
         JSON.parse(
           questionTypes
         );
+        console.log(
+  'QUESTION TYPES:',
+  parsedQuestionTypes
+);
+console.log(
+  'RAW QUESTION TYPES:',
+  questionTypes
+);
 
       const totalQuestions =
         parsedQuestionTypes.reduce(
