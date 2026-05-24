@@ -1,8 +1,6 @@
-'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import {
-  useMemo,
-} from 'react';
+'use client';
 
 import { useParams }
 from 'next/navigation';
@@ -10,40 +8,46 @@ from 'next/navigation';
 import GeneratedPaper
 from '@/components/GeneratedPaper';
 
-import {
-
-  getAssignments,
-
-} from '@/utils/localStorage';
-
 export default function AssignmentViewPage() {
 
   const params =
     useParams();
 
+  const stored =
+
+    typeof window !==
+    'undefined'
+
+      ? localStorage.getItem(
+          'veda_assignments'
+        )
+
+      : null;
+
+  const assignments =
+    stored
+      ? JSON.parse(stored)
+      : [];
+
+  const routeId =
+
+    Array.isArray(
+      params.id
+    )
+
+      ? params.id[0]
+
+      : params.id;
+
   const assignment =
-    useMemo(() => {
+    assignments.find(
 
-      const all =
-        getAssignments();
+      (a: any) =>
 
-      const id =
-        Array.isArray(params.id)
+        String(a.id) ===
+        String(routeId)
 
-          ? params.id[0]
-
-          : params.id;
-
-      return all.find(
-
-        (a) =>
-
-          a.id.toString() ===
-          id
-
-      );
-
-    }, [params]);
+    );
 
   if (!assignment) {
 
@@ -55,16 +59,33 @@ export default function AssignmentViewPage() {
           flex
           items-center
           justify-center
+          text-4xl
+          font-bold
         "
       >
 
-        Loading...
+        Assignment Not Found
 
       </div>
 
     );
 
   }
+
+  const paperData =
+
+    assignment.data ||
+
+    assignment.generatedPaper ||
+
+    assignment.paper ||
+
+    assignment;
+
+  console.log(
+    'VIEW PAGE DATA:',
+    paperData
+  );
 
   return (
 
@@ -79,7 +100,7 @@ export default function AssignmentViewPage() {
 
       <GeneratedPaper
         generatedData={
-          assignment
+          paperData
         }
       />
 
