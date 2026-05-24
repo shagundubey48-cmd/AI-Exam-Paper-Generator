@@ -5,6 +5,9 @@
 import { useParams }
 from 'next/navigation';
 
+import GeneratedPaper
+from '@/components/GeneratedPaper';
+
 export default function AssignmentViewPage() {
 
   const params =
@@ -36,50 +39,57 @@ export default function AssignmentViewPage() {
 
       : params.id;
 
+  const assignment =
+    assignments.find(
+
+      (a: any) =>
+
+        a.id.toString() ===
+        id
+
+    );
+
+  if (
+    !assignment
+  ) {
+
+    return (
+
+      <div
+        className="
+          min-h-screen
+          flex
+          items-center
+          justify-center
+          text-4xl
+          font-bold
+        "
+      >
+
+        Assignment Not Found
+
+      </div>
+
+    );
+
+  }
+
   return (
 
     <div
       className="
-        p-10
-        text-black
+        bg-gray-100
+        min-h-screen
+        p-4
+        md:p-10
       "
     >
 
-      <h1 className="text-3xl font-bold">
-
-        DEBUG PAGE
-
-      </h1>
-
-      <pre
-        className="
-          mt-10
-          whitespace-pre-wrap
-          text-sm
-        "
-      >
-
-        {
-
-          JSON.stringify(
-
-            {
-
-              routeId: id,
-
-              assignments,
-
-            },
-
-            null,
-
-            2
-
-          )
-
+      <GeneratedPaper
+        generatedData={
+          assignment.data
         }
-
-      </pre>
+      />
 
     </div>
 
