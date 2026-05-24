@@ -4,12 +4,13 @@ export interface StoredAssignment {
 
   title: string;
 
+  subject?: string;
+
   createdAt: string;
 
   data: any;
 
 }
-
 const KEY =
   'veda_assignments';
 
