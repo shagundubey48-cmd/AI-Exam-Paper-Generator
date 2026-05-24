@@ -13,10 +13,6 @@ import {
 import GeneratedPaper
 from '@/components/GeneratedPaper';
 
-import {
-  getAssignments,
-} from '@/utils/localStorage';
-
 export default function AssignmentViewPage() {
 
   const params =
@@ -27,8 +23,15 @@ export default function AssignmentViewPage() {
 
   useEffect(() => {
 
-    const all =
-      getAssignments();
+    const stored =
+      localStorage.getItem(
+        'veda_assignments'
+      );
+
+    if (!stored) return;
+
+    const assignments =
+      JSON.parse(stored);
 
     const id =
 
@@ -41,8 +44,7 @@ export default function AssignmentViewPage() {
         : params.id;
 
     const found =
-
-      all.find(
+      assignments.find(
 
         (a: any) =>
 
@@ -50,6 +52,8 @@ export default function AssignmentViewPage() {
           id
 
       );
+
+    console.log(found);
 
     if (
       found &&
@@ -74,7 +78,7 @@ export default function AssignmentViewPage() {
           flex
           items-center
           justify-center
-          text-3xl
+          text-4xl
           font-bold
         "
       >
@@ -91,8 +95,8 @@ export default function AssignmentViewPage() {
 
     <div
       className="
-        min-h-screen
         bg-gray-100
+        min-h-screen
         p-4
         md:p-10
       "
