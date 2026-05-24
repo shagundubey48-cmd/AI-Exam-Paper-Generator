@@ -5,106 +5,81 @@
 import { useParams }
 from 'next/navigation';
 
-import {
-  useEffect,
-  useState,
-} from 'react';
-
-import GeneratedPaper
-from '@/components/GeneratedPaper';
-
 export default function AssignmentViewPage() {
 
   const params =
     useParams();
 
-  const [generatedData, setGeneratedData] =
-    useState<any>(null);
+  const stored =
 
-  useEffect(() => {
+    typeof window !==
+    'undefined'
 
-    const stored =
-      localStorage.getItem(
-        'veda_assignments'
-      );
+      ? localStorage.getItem(
+          'veda_assignments'
+        )
 
-    if (!stored) return;
+      : null;
 
-    const assignments =
-      JSON.parse(stored);
+  const assignments =
+    stored
+      ? JSON.parse(stored)
+      : [];
 
-    const id =
+  const id =
 
-      Array.isArray(
-        params.id
-      )
+    Array.isArray(
+      params.id
+    )
 
-        ? params.id[0]
+      ? params.id[0]
 
-        : params.id;
-
-    const found =
-      assignments.find(
-
-        (a: any) =>
-
-          a.id.toString() ===
-          id
-
-      );
-
-    if (
-      found &&
-      found.data
-    ) {
-
-      setGeneratedData(
-        found.data
-      );
-
-    }
-
-  }, [params]);
-
-  if (!generatedData) {
-
-    return (
-
-      <div
-        className="
-          min-h-screen
-          flex
-          items-center
-          justify-center
-          text-4xl
-          font-bold
-        "
-      >
-
-        Loading...
-
-      </div>
-
-    );
-
-  }
+      : params.id;
 
   return (
 
     <div
       className="
-        bg-gray-100
-        min-h-screen
-        p-4
-        md:p-10
+        p-10
+        text-black
       "
     >
 
-      <GeneratedPaper
-        generatedData={
-          generatedData
+      <h1 className="text-3xl font-bold">
+
+        DEBUG PAGE
+
+      </h1>
+
+      <pre
+        className="
+          mt-10
+          whitespace-pre-wrap
+          text-sm
+        "
+      >
+
+        {
+
+          JSON.stringify(
+
+            {
+
+              routeId: id,
+
+              assignments,
+
+            },
+
+            null,
+
+            2
+
+          )
+
         }
-      />
+
+      </pre>
 
     </div>
 
