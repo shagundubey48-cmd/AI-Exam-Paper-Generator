@@ -519,6 +519,15 @@ JSON FORMAT:
   'FINAL SECTIONS:',
   parsed.sections.length
 );
+console.log(
+  'SECTIONS VALUE:',
+  parsed.sections
+);
+
+console.log(
+  'SECTIONS LENGTH:',
+  parsed.sections?.length
+);
 
       return res.json({
 
