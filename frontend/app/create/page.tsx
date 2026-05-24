@@ -179,8 +179,7 @@ export default function CreatePage() {
         const response =
           await axios.post(
 
-            'http://localhost:5000/api/assignment/generate',
-
+`${process.env.NEXT_PUBLIC_API_URL}/api/assignments/generate`,
             formData
 
           );
@@ -757,11 +756,15 @@ export default function CreatePage() {
 
       </div>
 
-      <GeneratedPaper
-        generatedData={
-          generatedData
-        }
-      />
+      {generatedData && (
+
+  <GeneratedPaper
+    generatedData={
+      generatedData
+    }
+  />
+
+)}
 
     </div>
 

@@ -1,34 +1,44 @@
-import dotenv from 'dotenv';
+import express
+from 'express';
+
+import cors
+from 'cors';
+
+import dotenv
+from 'dotenv';
 
 dotenv.config();
 
-import express from 'express';
-import cors from 'cors';
+import assignmentRoutes
+from './routes/assignment.routes';
 
-import assignmentRoutes from './routes/assignment.routes';
-import { connectDB } from './config/db';
+const app =
+  express();
 
-const app = express();
-
-connectDB();
+app.use(cors());
 
 app.use(
-  cors({
-    origin: '*',
-    credentials: true,
-  })
+  express.json()
 );
 
-app.use(express.json());
+app.use(
 
-app.get('/', (req, res) => {
-  res.send('Backend is running 🚀');
-});
+  '/api/assignments',
 
-app.use('/api/assignment', assignmentRoutes);
+  assignmentRoutes
 
-const PORT = process.env.PORT || 5000;
+);
 
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-});
+app.listen(
+
+  5000,
+
+  () => {
+
+    console.log(
+      'Server running on 5000'
+    );
+
+  }
+
+);
