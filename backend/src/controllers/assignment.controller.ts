@@ -1,7 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Request, Response }
-from 'express';
+import {
+  Request,
+  Response
+} from 'express';
+
+interface MulterRequest
+  extends Request {
+
+  file?: any;
+
+}
 
 import fs from 'fs';
 
@@ -20,8 +29,11 @@ const groq =
 
 export const generateAssignment =
   async (
-    req: Request,
+
+    req: MulterRequest,
+
     res: Response
+
   ) => {
 
     try {
