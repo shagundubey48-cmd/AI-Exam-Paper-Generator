@@ -17,6 +17,39 @@ export default function GeneratedPaper({
     setShowAnswers,
   ] = useState(false);
 
+  if (
+    !generatedData
+  ) {
+
+    return (
+
+      <div
+        className="
+          min-h-screen
+          flex
+          items-center
+          justify-center
+          text-3xl
+          font-bold
+        "
+      >
+
+        No Assignment Data
+
+      </div>
+
+    );
+
+  }
+
+  const sections =
+
+    generatedData.sections ||
+
+    generatedData.data?.sections ||
+
+    [];
+
   const downloadPDF =
     async () => {
 
@@ -33,6 +66,9 @@ export default function GeneratedPaper({
           scale: 2,
 
           useCORS: true,
+
+          scrollY:
+            -window.scrollY,
 
         });
 
@@ -129,12 +165,6 @@ export default function GeneratedPaper({
 
     };
 
-  if (!generatedData) {
-
-    return null;
-
-  }
-
   return (
 
     <div className="mt-10">
@@ -205,8 +235,6 @@ export default function GeneratedPaper({
 
       </div>
 
-      {/* PRINTABLE CONTENT */}
-
       <div
         id="paper-content"
         className="
@@ -214,7 +242,6 @@ export default function GeneratedPaper({
           rounded-3xl
           p-6
           md:p-12
-          overflow-visible
         "
       >
 
@@ -228,7 +255,9 @@ export default function GeneratedPaper({
           >
 
             {
-              generatedData.schoolName
+              generatedData.schoolName ||
+
+              'Delhi Public School'
             }
 
           </h1>
@@ -237,8 +266,11 @@ export default function GeneratedPaper({
 
             Subject:
             {' '}
+
             {
-              generatedData.subject
+              generatedData.subject ||
+
+              'Artificial Intelligence'
             }
 
           </p>
@@ -247,7 +279,12 @@ export default function GeneratedPaper({
 
             Class:
             {' '}
-            10th
+
+            {
+              generatedData.class ||
+
+              '10th'
+            }
 
           </p>
 
@@ -266,8 +303,11 @@ export default function GeneratedPaper({
 
             Time Allowed:
             {' '}
+
             {
-              generatedData.time
+              generatedData.time ||
+
+              '3 Hours'
             }
 
           </div>
@@ -276,8 +316,11 @@ export default function GeneratedPaper({
 
             Maximum Marks:
             {' '}
+
             {
-              generatedData.maxMarks
+              generatedData.maxMarks ||
+
+              100
             }
 
           </div>
@@ -382,7 +425,7 @@ export default function GeneratedPaper({
 
         <div className="mt-16 space-y-16">
 
-          {generatedData.sections?.map(
+          {sections.map(
 
             (
               section: any,
@@ -457,7 +500,10 @@ export default function GeneratedPaper({
 
                               {qIndex + 1}.
                               {' '}
-                              {q.question}
+                              {
+                                q.question ||
+                                q.text
+                              }
 
                             </h3>
 
@@ -482,7 +528,8 @@ export default function GeneratedPaper({
                             >
 
                               {
-                                q.difficulty
+                                q.difficulty ||
+                                'Medium'
                               }
 
                             </div>
@@ -494,7 +541,9 @@ export default function GeneratedPaper({
                               "
                             >
 
-                              {q.marks}
+                              {
+                                q.marks || 0
+                              }
                               {' '}
                               Marks
 
@@ -588,8 +637,6 @@ export default function GeneratedPaper({
 
       </div>
 
-      {/* ANSWER KEY */}
-
       {showAnswers && (
 
         <div
@@ -598,7 +645,6 @@ export default function GeneratedPaper({
             bg-white
             rounded-3xl
             p-8
-            shadow-sm
           "
         >
 
@@ -617,7 +663,7 @@ export default function GeneratedPaper({
 
           <div className="space-y-10">
 
-            {generatedData.sections.map(
+            {sections.map(
 
               (
                 section: any,
@@ -642,7 +688,7 @@ export default function GeneratedPaper({
 
                   <div className="space-y-6">
 
-                    {section.questions.map(
+                    {section.questions?.map(
 
                       (
                         q: any,
@@ -663,7 +709,10 @@ export default function GeneratedPaper({
 
                             {qIndex + 1}.
                             {' '}
-                            {q.question}
+                            {
+                              q.question ||
+                              q.text
+                            }
 
                           </p>
 
@@ -691,6 +740,7 @@ export default function GeneratedPaper({
 
                               {
                                 q.answer ||
+
                                 'No answer available'
                               }
 
