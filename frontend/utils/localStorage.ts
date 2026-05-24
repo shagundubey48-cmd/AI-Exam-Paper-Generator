@@ -6,6 +6,10 @@ export interface StoredAssignment {
 
   subject?: string;
 
+  totalQuestions?: number;
+
+  totalMarks?: number;
+
   createdAt: string;
 
   data: any;
