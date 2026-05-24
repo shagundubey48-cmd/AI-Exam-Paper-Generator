@@ -44,9 +44,13 @@ export default function GeneratedPaper({
 
   const sections =
 
-    generatedData.sections ||
+  generatedData.sections ||
 
-    [];
+  generatedData.generatedPaper ||
+
+  generatedData.paper ||
+
+  [];
 
   const downloadPDF =
     async () => {
@@ -321,7 +325,9 @@ export default function GeneratedPaper({
             {
               generatedData.maxMarks ||
 
-              100
+generatedData.totalMarks ||
+
+0
             }
 
           </div>
@@ -469,7 +475,15 @@ export default function GeneratedPaper({
 
                 <div className="mt-12 space-y-8">
 
-                  {section.questions?.map(
+                  {(
+  section.questions ||
+
+  section.mcqs ||
+
+  section.items ||
+
+  []
+).map(
 
                     (
                       q: any,
