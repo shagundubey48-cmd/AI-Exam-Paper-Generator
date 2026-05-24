@@ -441,7 +441,86 @@ JSON FORMAT:
           parsed.maxMarks,
 
         sections:
-          parsed.sections,
+
+  parsed.sections &&
+  parsed.sections.length > 0
+
+    ? parsed.sections
+
+    : parsedQuestionTypes.map(
+
+        (
+          q: any,
+          index: number
+        ) => ({
+
+          title:
+            `SECTION ${
+              String.fromCharCode(
+                65 + index
+              )
+            } — ${q.type}`,
+
+          instruction:
+            'Attempt all questions',
+
+          questions:
+            Array.from(
+
+              {
+                length:
+                  Number(
+                    q.questions
+                  ),
+              },
+
+              (_, i) => ({
+
+                question:
+                  `${q.type} Question ${i + 1}`,
+
+                difficulty:
+                  i % 3 === 0
+                    ? 'Easy'
+                    : i % 3 === 1
+                    ? 'Medium'
+                    : 'Hard',
+
+                marks:
+                  Number(
+                    q.marks
+                  ),
+
+                options:
+
+                  q.type ===
+                  'MCQ'
+
+                    ? [
+
+                        'Option A',
+
+                        'Option B',
+
+                        'Option C',
+
+                        'Option D',
+
+                      ]
+
+                    : undefined,
+
+                answer:
+                  'Generated answer',
+
+              })
+
+            ),
+
+        })
+
+      ),
+          
 
       });
 
