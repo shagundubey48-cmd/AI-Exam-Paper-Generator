@@ -2,117 +2,132 @@
 
 'use client';
 
-import { useParams }
-from 'next/navigation';
+import Link from 'next/link';
 
-import GeneratedPaper
-from '@/components/GeneratedPaper';
+export default function AssignmentsPage() {
 
-export default function AssignmentViewPage() {
-
-  const params =
-    useParams();
-
-  const routeId =
-
-    Array.isArray(
-      params?.id
-    )
-
-      ? params.id[0]
-
-      : params?.id;
-
-  if (!routeId) {
-
-    return (
-
-      <div
-        className="
-          min-h-screen
-          flex
-          items-center
-          justify-center
-          text-4xl
-          font-bold
-        "
-      >
-
-        Invalid Route ID
-
-      </div>
-
-    );
-
-  }
-
-  const stored =
+  const assignments =
 
     typeof window !==
     'undefined'
 
-      ? localStorage.getItem(
-          'veda_assignments'
+      ? JSON.parse(
+
+          localStorage.getItem(
+            'veda_assignments'
+          ) || '[]'
+
         )
 
-      : null;
-
-  const assignments =
-    stored
-      ? JSON.parse(stored)
       : [];
-
-  const assignment =
-    assignments.find(
-
-      (a: any) =>
-
-        String(a.id) ===
-        String(routeId)
-
-    );
-
-  if (
-    !assignment
-  ) {
-
-    return (
-
-      <div
-        className="
-          min-h-screen
-          flex
-          items-center
-          justify-center
-          text-4xl
-          font-bold
-        "
-      >
-
-        Assignment Not Found
-
-      </div>
-
-    );
-
-  }
 
   return (
 
     <div
       className="
-        bg-gray-100
         min-h-screen
+        bg-gray-100
         p-4
         md:p-10
       "
     >
 
-      <GeneratedPaper
-        generatedData={
-          assignment.data
-        }
-      />
+      <div
+        className="
+          max-w-6xl
+          mx-auto
+        "
+      >
+
+        <h1
+          className="
+            text-4xl
+            font-bold
+            mb-10
+          "
+        >
+
+          Assignments
+
+        </h1>
+
+        <div className="space-y-6">
+
+          {assignments.map(
+
+            (
+              assignment: any
+            ) => (
+
+              <div
+
+                key={assignment.id}
+
+                className="
+                  bg-white
+                  rounded-3xl
+                  p-6
+                  shadow-sm
+                "
+
+              >
+
+                <h2
+                  className="
+                    text-2xl
+                    font-bold
+                  "
+                >
+
+                  {
+                    assignment.title
+                  }
+
+                </h2>
+
+                <p className="mt-2 text-gray-500">
+
+                  {
+                    assignment.subject
+                  }
+
+                </p>
+
+                <div className="mt-5">
+
+                  <Link
+
+                    href={`/assignments/${assignment.id}`}
+
+                  >
+
+                    <button
+                      className="
+                        bg-black
+                        text-white
+                        px-5
+                        py-3
+                        rounded-xl
+                      "
+                    >
+
+                      View Assignment
+
+                    </button>
+
+                  </Link>
+
+                </div>
+
+              </div>
+
+            )
+
+          )}
+
+        </div>
+
+      </div>
 
     </div>
 
