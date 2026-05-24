@@ -143,6 +143,29 @@ export default function CreatePage() {
 
   title,
 
+  subject:
+    response.data.subject,
+
+  totalQuestions:
+
+    response.data.sections
+      ?.reduce(
+
+        (
+          acc: number,
+          sec: any
+        ) =>
+
+          acc +
+          sec.questions.length,
+
+        0
+
+      ) || 0,
+
+  totalMarks:
+    response.data.maxMarks,
+
   createdAt:
     new Date()
       .toISOString(),
