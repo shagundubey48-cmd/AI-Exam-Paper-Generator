@@ -302,219 +302,281 @@ JSON FORMAT:
 
           .trim();
 
-      let parsed;
+      let parsed: any;
 
-      try {
+try {
 
-        parsed =
-          JSON.parse(cleaned);
-          if (
+  parsed =
+    JSON.parse(cleaned);
 
-  !parsed.sections ||
+  if (
 
-  parsed.sections.length === 0
+    !parsed.sections ||
 
-) {
+    !Array.isArray(
+      parsed.sections
+    ) ||
 
-  parsed.sections =
+    parsed.sections.length === 0
 
-    parsedQuestionTypes.map(
+  ) {
 
-      (
-        q: any,
-        index: number
-      ) => ({
-
-        title:
-          `SECTION ${
-            String.fromCharCode(
-              65 + index
-            )
-          } — ${q.type}`,
-
-        instruction:
-          'Attempt all questions',
-
-        questions:
-          Array.from(
-
-            {
-              length:
-                Number(
-                  q.questions
-                ),
-            },
-
-            (_, i) => ({
-
-              question:
-                `${q.type} Question ${i + 1}`,
-
-              difficulty:
-                i % 3 === 0
-                  ? 'Easy'
-                  : i % 3 === 1
-                  ? 'Medium'
-                  : 'Hard',
-
-              marks:
-                Number(
-                  q.marks
-                ),
-
-              options:
-
-                q.type ===
-                'MCQ'
-
-                  ? [
-
-                      'Option A',
-
-                      'Option B',
-
-                      'Option C',
-
-                      'Option D',
-
-                    ]
-
-                  : undefined,
-
-              answer:
-                'Generated answer',
-
-            })
-
-          ),
-
-      })
-
+    console.log(
+      'FORCING FALLBACK SECTIONS'
     );
 
-}
+    parsed.sections =
 
-          if (
+      parsedQuestionTypes.map(
 
-  !parsed.sections ||
+        (
+          q: any,
+          index: number
+        ) => ({
 
-  !Array.isArray(
-    parsed.sections
-  ) ||
+          title:
+            `SECTION ${
+              String.fromCharCode(
+                65 + index
+              )
+            } — ${q.type}`,
 
-  parsed.sections.length === 0
+          instruction:
+            'Attempt all questions',
 
-) {
+          questions:
+            Array.from(
 
-  throw new Error(
-    'Invalid sections'
-  );
-
-}
-
-        console.log(
-          'JSON PARSED SUCCESSFULLY'
-        );
-
-      } catch (jsonError) {
-
-        console.log(
-          'JSON PARSE FAILED'
-        );
-
-        console.log(jsonError);
-
-        parsed = {
-
-          schoolName:
-            'Delhi Public School',
-
-          subject:
-            title ||
-            'Artificial Intelligence',
-
-          time:
-            '3 Hours',
-
-          maxMarks:
-            totalMarks,
-
-          sections:
-            parsedQuestionTypes.map(
-
-              (
-                q: any,
-                index: number
-              ) => ({
-
-                title:
-                  `SECTION ${
-                    String.fromCharCode(
-                      65 + index
-                    )
-                  } — ${q.type}`,
-
-                instruction:
-                  'Attempt all questions',
-
-                questions:
-                  Array.from(
-
-                    {
-                      length:
-                        Number(
-                          q.questions
-                        ),
-                    },
-
-                    (_, i) => ({
-
-                      question:
-                        'Generated Question',
-
-                      difficulty:
-                        i % 3 === 0
-                          ? 'Easy'
-                          : i % 3 === 1
-                          ? 'Moderate'
-                          : 'Hard',
-
-                      marks:
-                        Number(
-                          q.marks
-                        ),
-
-                      options:
-                        q.type === 'MCQ'
-
-                          ? [
-
-                            'Option A',
-
-                            'Option B',
-
-                            'Option C',
-
-                            'Option D',
-
-                          ]
-
-                          : [],
-
-                      answer:
-                        'Generated Answer',
-
-                    })
-
+              {
+                length:
+                  Number(
+                    q.questions
                   ),
+              },
+
+              (_, i) => ({
+
+                question:
+                  `${q.type} Question ${i + 1}`,
+
+                difficulty:
+                  i % 3 === 0
+                    ? 'Easy'
+                    : i % 3 === 1
+                    ? 'Medium'
+                    : 'Hard',
+
+                marks:
+                  Number(
+                    q.marks
+                  ),
+
+                options:
+
+                  q.type ===
+                  'MCQ'
+
+                    ? [
+
+                        'Option A',
+
+                        'Option B',
+
+                        'Option C',
+
+                        'Option D',
+
+                      ]
+
+                    : undefined,
+
+                answer:
+                  'Generated answer',
 
               })
 
             ),
 
-        };
+        })
 
-      }
+      );
+
+  }
+
+  console.log(
+    'FINAL SECTION COUNT:',
+    parsed.sections.length
+  );
+
+  console.log(
+    'JSON PARSED SUCCESSFULLY'
+  );
+
+} catch (jsonError) {
+
+  console.log(
+    'JSON PARSE FAILED'
+  );
+
+  parsed = {
+
+    title,
+
+    subject:
+      extractedText
+        .slice(0, 50) ||
+
+      'Subject',
+
+    totalQuestions:
+      parsedQuestionTypes.reduce(
+
+        (
+          sum: number,
+          q: any
+        ) =>
+
+          sum +
+          Number(
+            q.questions
+          ),
+
+        0
+
+      ),
+
+    totalMarks:
+      parsedQuestionTypes.reduce(
+
+        (
+          sum: number,
+          q: any
+        ) =>
+
+          sum +
+          (
+            Number(
+              q.questions
+            ) *
+
+            Number(
+              q.marks
+            )
+          ),
+
+        0
+
+      ),
+
+    schoolName:
+      'Delhi Public School',
+
+    time:
+      '3 Hours',
+
+    maxMarks:
+      parsedQuestionTypes.reduce(
+
+        (
+          sum: number,
+          q: any
+        ) =>
+
+          sum +
+          (
+            Number(
+              q.questions
+            ) *
+
+            Number(
+              q.marks
+            )
+          ),
+
+        0
+
+      ),
+
+    sections:
+
+      parsedQuestionTypes.map(
+
+        (
+          q: any,
+          index: number
+        ) => ({
+
+          title:
+            `SECTION ${
+              String.fromCharCode(
+                65 + index
+              )
+            } — ${q.type}`,
+
+          instruction:
+            'Attempt all questions',
+
+          questions:
+            Array.from(
+
+              {
+                length:
+                  Number(
+                    q.questions
+                  ),
+              },
+
+              (_, i) => ({
+
+                question:
+                  `${q.type} Question ${i + 1}`,
+
+                difficulty:
+                  i % 3 === 0
+                    ? 'Easy'
+                    : i % 3 === 1
+                    ? 'Medium'
+                    : 'Hard',
+
+                marks:
+                  Number(
+                    q.marks
+                  ),
+
+                options:
+
+                  q.type ===
+                  'MCQ'
+
+                    ? [
+
+                        'Option A',
+
+                        'Option B',
+
+                        'Option C',
+
+                        'Option D',
+
+                      ]
+
+                    : undefined,
+
+                answer:
+                  'Generated answer',
+
+              })
+
+            ),
+
+        })
+
+      ),
+
+  };
+
+}
+   
       console.log(
   'FINAL SECTIONS:',
   parsed.sections.length
@@ -534,20 +596,24 @@ console.log(
         title,
 
         subject:
-          parsed.subject,
+  parsed.subject ||
+  'Artificial Intelligence',
 
         totalQuestions,
 
         totalMarks,
 
         schoolName:
-          parsed.schoolName,
+  parsed.schoolName ||
+  'Delhi Public School',
 
         time:
-          parsed.time,
+  parsed.time ||
+  '3 Hours',
 
         maxMarks:
-          parsed.maxMarks,
+  parsed.maxMarks ||
+  totalMarks,
 
         sections:
 
