@@ -242,14 +242,16 @@ export default function GeneratedPaper({
       {/* PAPER */}
 
       <div
-        id="paper-content"
-        className="
-          bg-white
-          rounded-3xl
-          p-6
-          md:p-12
-        "
-      >
+  id="paper-content"
+  className="
+    bg-white
+    rounded-3xl
+    p-6
+    md:p-12
+    overflow-visible
+    min-h-screen
+  "
+>
 
         {/* HEADER */}
 
@@ -436,7 +438,21 @@ generatedData.totalMarks ||
 
         {/* QUESTIONS */}
 
-        <div className="mt-16 space-y-16">
+        <div
+  className="
+    mt-16
+    space-y-16
+    relative
+    z-10
+  "
+>
+  <p className="mb-10 text-red-500">
+
+  Total Sections:
+  {' '}
+  {sections.length}
+
+</p>
 
           {sections.map(
 
