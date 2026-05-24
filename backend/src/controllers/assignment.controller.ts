@@ -503,7 +503,10 @@ JSON FORMAT:
         };
 
       }
-      
+      console.log(
+  'FINAL SECTIONS:',
+  parsed.sections.length
+);
 
       return res.json({
 
