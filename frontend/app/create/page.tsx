@@ -134,9 +134,79 @@ export default function CreatePage() {
 
           );
 
-        setGeneratedData(
-          response.data
-        );
+        const generatedPaper =
+  response.data;
+
+setGeneratedData(
+  generatedPaper
+);
+
+const existing =
+
+  JSON.parse(
+
+    localStorage.getItem(
+      'veda_assignments'
+    ) || '[]'
+
+  );
+
+const newAssignment = {
+
+  id: Date.now(),
+
+  title,
+
+  subject:
+    generatedPaper.subject ||
+
+    'Artificial Intelligence',
+
+  totalQuestions:
+
+    generatedPaper.sections
+      ?.reduce(
+
+        (
+          acc: number,
+          sec: any
+        ) =>
+
+          acc +
+          (
+            sec.questions
+              ?.length || 0
+          ),
+
+        0
+
+      ) || 0,
+
+  totalMarks:
+    generatedPaper.maxMarks || 0,
+
+  createdAt:
+    new Date()
+      .toLocaleString(),
+
+  data:
+    generatedPaper,
+
+};
+
+localStorage.setItem(
+
+  'veda_assignments',
+
+  JSON.stringify([
+
+    newAssignment,
+
+    ...existing,
+
+  ])
+
+);
         saveAssignment({
 
   id: Date.now(),
