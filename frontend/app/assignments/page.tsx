@@ -18,7 +18,7 @@ export default function AssignmentViewPage() {
   const params =
     useParams();
 
-  const [paperData, setPaperData] =
+  const [generatedData, setGeneratedData] =
     useState<any>(null);
 
   useEffect(() => {
@@ -53,14 +53,12 @@ export default function AssignmentViewPage() {
 
       );
 
-    console.log(found);
-
     if (
       found &&
       found.data
     ) {
 
-      setPaperData(
+      setGeneratedData(
         found.data
       );
 
@@ -68,7 +66,7 @@ export default function AssignmentViewPage() {
 
   }, [params]);
 
-  if (!paperData) {
+  if (!generatedData) {
 
     return (
 
@@ -104,7 +102,7 @@ export default function AssignmentViewPage() {
 
       <GeneratedPaper
         generatedData={
-          paperData
+          generatedData
         }
       />
 

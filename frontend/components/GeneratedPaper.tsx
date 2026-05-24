@@ -29,7 +29,7 @@ export default function GeneratedPaper({
           flex
           items-center
           justify-center
-          text-3xl
+          text-4xl
           font-bold
         "
       >
@@ -45,8 +45,6 @@ export default function GeneratedPaper({
   const sections =
 
     generatedData.sections ||
-
-    generatedData.data?.sections ||
 
     [];
 
@@ -169,6 +167,8 @@ export default function GeneratedPaper({
 
     <div className="mt-10">
 
+      {/* TOP BUTTONS */}
+
       <div
         className="
           sticky
@@ -235,6 +235,8 @@ export default function GeneratedPaper({
 
       </div>
 
+      {/* PAPER */}
+
       <div
         id="paper-content"
         className="
@@ -244,6 +246,8 @@ export default function GeneratedPaper({
           md:p-12
         "
       >
+
+        {/* HEADER */}
 
         <div className="text-center">
 
@@ -279,16 +283,13 @@ export default function GeneratedPaper({
 
             Class:
             {' '}
-
-            {
-              generatedData.class ||
-
-              '10th'
-            }
+            10th
 
           </p>
 
         </div>
+
+        {/* INFO */}
 
         <div
           className="
@@ -326,6 +327,8 @@ export default function GeneratedPaper({
           </div>
 
         </div>
+
+        {/* STUDENT DETAILS */}
 
         <div className="mt-14 space-y-4">
 
@@ -385,6 +388,8 @@ export default function GeneratedPaper({
 
         </div>
 
+        {/* INSTRUCTIONS */}
+
         <div className="mt-14">
 
           <h2
@@ -422,6 +427,8 @@ export default function GeneratedPaper({
           </ul>
 
         </div>
+
+        {/* QUESTIONS */}
 
         <div className="mt-16 space-y-16">
 
@@ -500,8 +507,10 @@ export default function GeneratedPaper({
 
                               {qIndex + 1}.
                               {' '}
+
                               {
                                 q.question ||
+
                                 q.text
                               }
 
@@ -529,6 +538,7 @@ export default function GeneratedPaper({
 
                               {
                                 q.difficulty ||
+
                                 'Medium'
                               }
 
@@ -552,6 +562,8 @@ export default function GeneratedPaper({
                           </div>
 
                         </div>
+
+                        {/* OPTIONS */}
 
                         {q.options && (
 
@@ -604,6 +616,8 @@ export default function GeneratedPaper({
 
                         )}
 
+                        {/* ANSWER SPACE */}
+
                         {!q.options && (
 
                           <div
@@ -619,107 +633,14 @@ export default function GeneratedPaper({
 
                         )}
 
-                      </div>
+                        {/* ANSWERS */}
 
-                    )
-
-                  )}
-
-                </div>
-
-              </div>
-
-            )
-
-          )}
-
-        </div>
-
-      </div>
-
-      {showAnswers && (
-
-        <div
-          className="
-            mt-10
-            bg-white
-            rounded-3xl
-            p-8
-          "
-        >
-
-          <h2
-            className="
-              text-4xl
-              font-bold
-              text-center
-              mb-12
-            "
-          >
-
-            ANSWER KEY
-
-          </h2>
-
-          <div className="space-y-10">
-
-            {sections.map(
-
-              (
-                section: any,
-                sectionIndex: number
-              ) => (
-
-                <div key={sectionIndex}>
-
-                  <h3
-                    className="
-                      text-2xl
-                      font-bold
-                      mb-6
-                    "
-                  >
-
-                    {
-                      section.title
-                    }
-
-                  </h3>
-
-                  <div className="space-y-6">
-
-                    {section.questions?.map(
-
-                      (
-                        q: any,
-                        qIndex: number
-                      ) => (
-
-                        <div
-                          key={qIndex}
-                          className="
-                            border
-                            rounded-2xl
-                            p-6
-                            bg-gray-50
-                          "
-                        >
-
-                          <p className="font-semibold">
-
-                            {qIndex + 1}.
-                            {' '}
-                            {
-                              q.question ||
-                              q.text
-                            }
-
-                          </p>
+                        {showAnswers && (
 
                           <div
                             className="
-                              mt-4
-                              bg-white
+                              mt-6
+                              bg-gray-100
                               rounded-xl
                               p-4
                             "
@@ -748,25 +669,25 @@ export default function GeneratedPaper({
 
                           </div>
 
-                        </div>
+                        )}
 
-                      )
+                      </div>
 
-                    )}
+                    )
 
-                  </div>
+                  )}
 
                 </div>
 
-              )
+              </div>
 
-            )}
+            )
 
-          </div>
+          )}
 
         </div>
 
-      )}
+      </div>
 
     </div>
 
